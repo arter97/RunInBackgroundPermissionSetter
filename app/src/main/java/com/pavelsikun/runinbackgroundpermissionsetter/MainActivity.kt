@@ -13,8 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import com.yarolegovich.lovelydialog.LovelyStandardDialog
 import com.yarolegovich.lovelydialog.LovelyProgressDialog
@@ -26,6 +24,9 @@ import android.app.Activity
 import android.support.design.widget.Snackbar
 import android.view.inputmethod.InputMethodManager
 import com.pavelsikun.runinbackgroundpermissionsetter.AppListAdapter.SortMethod
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class MainActivity : AppCompatActivity() {
 
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 .setIcon(R.drawable.clock_alert)
                 .setMessage(getString(R.string.loading_dialog_message)).show()
 
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val intent = Intent(Intent.ACTION_MAIN, null)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             val apps = packageManager.queryIntentActivities(intent, PackageManager.GET_META_DATA)
