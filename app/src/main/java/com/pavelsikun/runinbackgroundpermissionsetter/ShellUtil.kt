@@ -36,5 +36,12 @@ fun setRunInBackgroundPermission(pkg: String, setEnabled: Boolean, callback: Cal
         future.complete(isSuccess)
     }
 
+    shell.addCommand("cmd appops set $pkg WAKE_LOCK $cmd", 1) { _, _, output: MutableList<String> ->
+        val outputString = output.joinToString()
+        val isSuccess = outputString.trim().isEmpty()
+        callback(isSuccess)
+        future.complete(isSuccess)
+    }
+
     return future
 }
